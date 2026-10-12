@@ -4,17 +4,24 @@ Tên nhóm: **Magician**.
 
 Repo chung: [K4-L3-DAY24-Magician-Eval-Guard](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard).
 
+Nhánh cá nhân: [quangdat](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/quangdat).
+Người phụ trách: **Phạm Quang Đạt — 2A202602704**, Phase A, Tasks 1–4.
+Nhánh này lưu mã tích hợp Day 18, tests, 50 answers, kết quả RAGAS và báo cáo
+cá nhân Phase A. Bản tích hợp cả ba phase của nhóm nằm trên
+[main](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/main).
+Trưởng nhóm dùng bản tích hợp để nộp bài; nhánh quangdat dùng đối chiếu đóng góp cá nhân.
+
 Trưởng nhóm/người nộp: **Trương Việt Anh — 2A202602444**.
 
 Ngày lab/deadline áp dụng: chưa có thông báo lớp trong thông tin được cung cấp.
 Nhóm xác nhận thời hạn theo Asia/Ho_Chi_Minh (UTC+07:00) trước khi nộp.
 
-Commit dùng để chấm bài nhóm: chưa chốt phiên bản tích hợp cả ba phase.
-Phần Phase A được ghi trong commit có tiêu đề
+Commit Phase A: [`f296173147ebf73ef3aeae5bc4676244ca7e9776`](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/commit/f296173147ebf73ef3aeae5bc4676244ca7e9776), tiêu đề
 `feat: complete Phase A RAGAS evaluation and individual report`.
-Tra SHA phần Phase A bằng
-`git log -1 --format=%H --grep='^feat: complete Phase A RAGAS evaluation and individual report$'`;
-trưởng nhóm ghi SHA của bản nộp cuối sau khi tích hợp Phase B/C.
+Nhánh quangdat được tạo từ commit này; commit tiếp theo cập nhật TEAM theo phạm vi nhánh.
+Bản kỹ thuật nhóm đã tích hợp A/B/C:
+[`da94aab4d9e3555c8c53a8abcd0b96e55b78e778`](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/commit/da94aab4d9e3555c8c53a8abcd0b96e55b78e778),
+được ghi trong TEAM của nhánh main. Ngày/giờ nộp bài vẫn chờ trưởng nhóm xác nhận.
 
 Mỗi nhóm nộp một repo chung. Nhóm có ba thành viên, phân công A/B/C như sau;
 trạng thái thực hiện được ghi trong từng mục INDIVIDUAL và evidence tương ứng.
@@ -24,8 +31,8 @@ trạng thái thực hiện được ghi trong từng mục INDIVIDUAL và evide
 | STT | Họ và tên | MSSV | Vai trò / công việc thật | Bằng chứng |
 |---|---|---|---|---|
 | 1 | Phạm Quang Đạt | 2A202602704 | Phụ trách Phase A, Tasks 1–4; tích hợp pipeline Day 18, kiểm chứng và báo cáo với Codex hỗ trợ | `src/phase_a_ragas.py`, tests Phase A, hai JSON answers/RAGAS, `doc/reports/failure_clusters.md`; commit Phase A nêu trên |
-| 2 | Trương Việt Anh | 2A202602444 | Trưởng nhóm/người nộp; phụ trách Phase B, Tasks 5–8, với Codex hỗ trợ; đang triển khai | `src/phase_b_judge.py`; bổ sung artifact/report và kết quả kiểm chứng khi hoàn tất |
-| 3 | Nguyễn Vũ Anh | 2A202602502 | Phụ trách Phase C, Tasks 9a–13, với Codex hỗ trợ; đang triển khai | `src/phase_c_guard.py`, `guardrails/`; bổ sung artifact/blueprint và kết quả kiểm chứng khi hoàn tất |
+| 2 | Trương Việt Anh | 2A202602444 | Trưởng nhóm/người nộp; Phase B, Tasks 5–8, với Codex hỗ trợ | Mã, tests, artifact và báo cáo Phase B ở nhánh main; commit `e18f9dc` |
+| 3 | Nguyễn Vũ Anh | 2A202602502 | Phase C, Tasks 9a–13, với Codex hỗ trợ | Mã, tests, artifact và blueprint Phase C ở nhánh main; commit `da94aab` |
 
 GitHub/email dùng cho commit: Phạm Quang Đạt — `datpq-alpha`,
 `phamqdat99@gmail.com`; Trương Việt Anh —
@@ -175,28 +182,24 @@ Người phụ trách cần hiểu và giải thích được các nội dung k�
 Họ và tên: **Trương Việt Anh**. MSSV: **2A202602444**.
 GitHub: [vietanh2005-tva](https://github.com/vietanh2005-tva).
 Phần được giao: **Phase B — LLM Judge, Tasks 5–8**; trưởng nhóm/người nộp.
-Trạng thái: đang triển khai với Codex hỗ trợ; chưa kê khai thực nghiệm B đã đạt.
-
-Phạm vi: pairwise judge dựa trên reference, hai lượt hoán đổi A/B và quy đổi
-winner/scores, Cohen's kappa trên đúng mười supplied model_answer, position và
-verbosity analysis. Evidence dự kiến ở `src/phase_b_judge.py`, tests Phase B,
-`artifacts/judge_results.json` và `doc/reports/bias_report.md`.
-Khi hoàn tất, ghi kết quả thật, các trường hợp bất đồng và giới hạn số mẫu;
-không dùng human_label/human_note trong prompt chấm.
+Phase B đã tích hợp ở nhánh main, commit `e18f9dc`. Kê khai công việc, tests,
+thực nghiệm và AI hỗ trợ tại
+[TEAM trên main](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/doc/TEAM.md#truongvietanh-2a202602444).
+Kết quả và phân tích tại
+[judge_results.json](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/artifacts/judge_results.json)
+và [bias_report.md](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/doc/reports/bias_report.md).
 
 ### NguyenVuAnh-2A202602502
 
 Họ và tên: **Nguyễn Vũ Anh**. MSSV: **2A202602502**.
 GitHub: [vuanh259](https://github.com/vuanh259).
 Phần được giao: **Phase C — Guardrails, Tasks 9a–13**.
-Trạng thái: đang triển khai với Codex hỗ trợ; chưa kê khai thực nghiệm C đã đạt.
-
-Phạm vi: Presidio PII recognizers, NeMo input/output rails, 20 attacks và 8
-clean controls, 4 output cases, latency hai tầng input và blueprint.
-Evidence dự kiến ở `src/phase_c_guard.py`, `guardrails/`, tests Phase C,
-`artifacts/guard_results.json` và `doc/reports/blueprint.md`.
-Khi hoàn tất, ghi số đo thật, false positives, warm-up/raw latency và giới hạn;
-không dùng expected để quyết định actual hoặc giả lập runtime NeMo.
+Phase C đã tích hợp ở nhánh main, commit `da94aab`. Kê khai công việc, tests,
+thực nghiệm và AI hỗ trợ tại
+[TEAM trên main](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/doc/TEAM.md#nguyenvuanh-2a202602502).
+Kết quả và blueprint tại
+[guard_results.json](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/artifacts/guard_results.json)
+và [blueprint.md](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/blob/main/doc/reports/blueprint.md).
 
 ## AI hỗ trợ Phase A
 
@@ -227,12 +230,20 @@ Unit tests sử dụng mocks không phải bằng chứng cho điểm RAGAS.
 Môi trường Phase A dùng Windows, Python 3.11.0, Qdrant 1.9.7, RAGAS 0.1.22;
 cách khởi chạy trên máy này ở `doc/ENVIRONMENT.md`.
 Phần kê khai này không xác nhận runtime NeMo/Phase B/Phase C đã chạy.
+Phần triển khai B/C và kiểm chứng toàn bài được kê khai riêng trên main.
 Thành viên cần tự đọc mã, đối chiếu artifacts với báo cáo và giải thích phần
 công việc mình kê khai trước khi nộp.
+
+## Kiểm tra theo phạm vi nhánh
+
+Trên quangdat, dùng lệnh tests Phase A ở mục cá nhân và đối chiếu
+answers_50q.json/ragas_50q.json với nguồn. Mã, tests và báo cáo B/C trên nhánh
+này giữ scaffold của starter để làm nền tích hợp. Checker toàn bài
+`scripts/check_lab.py` kiểm tra cả A/B/C; chạy checker đó trên nhánh main,
+nơi đã có đủ ba phase và artifacts tương ứng.
 
 ## Cập nhật sau khi nộp
 
 Chưa có thông tin về phiên bản đã nộp hoặc cập nhật sau khi nộp.
-Commit hiện tại ghi phần Phase A của Phạm Quang Đạt; chưa xác nhận là bản
-nộp cuối của cả nhóm. Trưởng nhóm bổ sung SHA, thời điểm nộp và lịch sử
-cập nhật theo thông báo lớp khi hoàn tất tích hợp.
+Nhánh quangdat lưu bằng chứng Phase A của Phạm Quang Đạt. Trưởng nhóm theo dõi
+bản tích hợp trên main và bổ sung thời điểm nộp/lịch sử cập nhật theo thông báo lớp.
