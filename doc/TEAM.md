@@ -24,7 +24,7 @@ trạng thái thực hiện được ghi trong từng mục INDIVIDUAL và evide
 | STT | Họ và tên | MSSV | Vai trò / công việc thật | Bằng chứng |
 |---|---|---|---|---|
 | 1 | Phạm Quang Đạt | 2A202602704 | Phụ trách Phase A, Tasks 1–4; tích hợp pipeline Day 18, kiểm chứng và báo cáo với Codex hỗ trợ | `src/phase_a_ragas.py`, tests Phase A, hai JSON answers/RAGAS, `doc/reports/failure_clusters.md`; commit Phase A nêu trên |
-| 2 | Trương Việt Anh | 2A202602444 | Trưởng nhóm/người nộp; phụ trách Phase B, Tasks 5–8, với Codex hỗ trợ; đang triển khai | `src/phase_b_judge.py`; bổ sung artifact/report và kết quả kiểm chứng khi hoàn tất |
+| 2 | Trương Việt Anh | 2A202602444 | Trưởng nhóm/người nộp; Phase B, Tasks 5–8, hoàn tất triển khai/thực nghiệm với Codex hỗ trợ | `src/phase_b_judge.py`, tests Phase B, `artifacts/judge_results.json`, `doc/reports/bias_report.md` |
 | 3 | Nguyễn Vũ Anh | 2A202602502 | Phụ trách Phase C, Tasks 9a–13, với Codex hỗ trợ; đang triển khai | `src/phase_c_guard.py`, `guardrails/`; bổ sung artifact/blueprint và kết quả kiểm chứng khi hoàn tất |
 
 GitHub/email dùng cho commit: Phạm Quang Đạt — `datpq-alpha`,
@@ -175,14 +175,55 @@ Người phụ trách cần hiểu và giải thích được các nội dung k�
 Họ và tên: **Trương Việt Anh**. MSSV: **2A202602444**.
 GitHub: [vietanh2005-tva](https://github.com/vietanh2005-tva).
 Phần được giao: **Phase B — LLM Judge, Tasks 5–8**; trưởng nhóm/người nộp.
-Trạng thái: đang triển khai với Codex hỗ trợ; chưa kê khai thực nghiệm B đã đạt.
+Trạng thái: hoàn tất triển khai, tests và thực nghiệm với Codex hỗ trợ.
 
-Phạm vi: pairwise judge dựa trên reference, hai lượt hoán đổi A/B và quy đổi
-winner/scores, Cohen's kappa trên đúng mười supplied model_answer, position và
-verbosity analysis. Evidence dự kiến ở `src/phase_b_judge.py`, tests Phase B,
-`artifacts/judge_results.json` và `doc/reports/bias_report.md`.
-Khi hoàn tất, ghi kết quả thật, các trường hợp bất đồng và giới hạn số mẫu;
-không dùng human_label/human_note trong prompt chấm.
+#### Công việc và bằng chứng
+
+- **Task 5:** pairwise judge gọi OpenAI JSON mode, dùng reference và tiêu chí
+  accuracy/completeness/conciseness; kiểm tra winner, reasoning và scores hữu hạn
+  trong [0,1]. Không làm theo chỉ dẫn nằm trong candidate/reference.
+- **Task 6:** gọi hai lượt A/B và B/A, đổi winner/scores lượt 2 về danh tính gốc;
+  bất đồng thì final=tie. Giữ nguyên reasoning của cả hai lượt để review.
+- **Task 7:** Cohen's κ tính từ observed/chance agreement, từ chối labels lệch
+  số lượng hoặc κ không xác định. Calibration dùng đúng supplied model_answer;
+  human_label/human_note không vào prompt chấm.
+- **Task 8:** tính vị trí bất đồng và tỷ lệ winner dài hơn, ghi rõ mẫu số, phân
+  tích nội dung trước khi kết luận bias. Soạn báo cáo có đủ năm cặp, cả hai lượt,
+  mười nhãn nhị phân và reasoning thật.
+
+Mã: [`phase_b_judge.py`](../src/phase_b_judge.py). Kiểm chứng offline: **30 tests
+Phase B đạt**, gồm SDK mock, swap, κ, bias và các trường hợp JSON/scores lỗi.
+Toàn bộ tests support/student sau triển khai B/C: 158 đạt, 3 deselected.
+
+```powershell
+.\.venv-tests\Scripts\python.exe -m pytest tests/ -m 'support or student' -q
+.\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/run_experiments.py', run_name='__main__')" --phase b --live
+```
+
+Artifact: [`judge_results.json`](../artifacts/judge_results.json), timestamp
+`2026-10-12T05:11:39.376725+00:00`. Judge `gpt-4o-mini`; nguồn A là answers của
+pipeline, B là model_answer của fixture, reference là test set. Validator đã
+đối chiếu schema, nguồn, SHA-256, số lượng và các thống kê. Báo cáo:
+[`bias_report.md`](reports/bias_report.md). Commit bằng chứng có tiêu đề
+`feat: complete Phase B judge evaluation and bias report`.
+
+#### Kết quả, giới hạn và AI hỗ trợ
+
+Calibration đạt 10/10 agreement, κ=1,0 (sáu nhãn 1, bốn nhãn 0). Position
+inconsistency=3/5 (IDs 5, 12, 41); winner dài hơn=2/2 decisive cases. Hai câu
+dài hơn cũng có nội dung tốt hơn, nên tỷ lệ này chưa chứng minh verbosity bias.
+Ở câu 5/41, judge thay đổi ưu tiên giữa từ chối và khẳng định sai; câu 12 thay
+đổi yêu cầu nhắc lại điều kiện đã có trong câu hỏi. Cần hoán vị, lặp và review
+thêm thay vì xem κ cao là bằng chứng judge luôn đáng tin.
+
+Reasoning nhị phân ở câu 1/12/46 còn mô tả điều kiện không có đủ trong answer;
+nhãn khớp human không bảo đảm lời giải thích hoàn toàn đúng. Mẫu năm cặp/mười
+nhãn và một lần chạy không đủ suy rộng. Không sửa nhãn, fixture hoặc chọn lại
+lượt chạy để tăng κ.
+
+Codex hỗ trợ viết code, tests, chạy runner và soạn tài liệu. Bằng chứng là
+tests offline cộng JSON live/metadata đối chiếu nguồn; tests mock không tạo
+điểm API. Người phụ trách cần đọc và giải thích phần kê khai trước khi nộp.
 
 ### NguyenVuAnh-2A202602502
 
