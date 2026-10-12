@@ -38,7 +38,7 @@ def _validate_judgment(result: dict) -> dict:
     for candidate, value in scores.items():
         if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError(f"Pairwise score {candidate} must be finite and within [0, 1]")
-    return {"winner": result["winner"], "reasoning": result["reasoning"],
+    return {"winner": result["winner"], "reasoning": result["reasoning"].strip(),
             "scores": dict(scores)}
 
 
@@ -110,6 +110,19 @@ def cohen_kappa(judge_labels: list[int], human_labels: list[int]) -> float:
 
 def bias_report(judge_results: list[JudgeResult]) -> dict:
     """Task 8: count positional disagreement and longer-answer wins, with explicit denominators."""
+    for row in judge_results:
+        if not isinstance(row, JudgeResult):
+            raise ValueError("Bias analysis requires JudgeResult rows")
+        if any(not isinstance(value, str) or not value.strip()
+               for value in (row.question, row.answer_a, row.answer_b)):
+            raise ValueError("Bias analysis requires non-empty question and candidate text")
+        winners = (row.winner_pass1, row.winner_pass2, row.final_winner)
+        if any(winner not in ("A", "B", "tie") for winner in winners):
+            raise ValueError("Bias analysis received an invalid winner label")
+        expected_consistency = row.winner_pass1 == row.winner_pass2
+        expected_final = row.winner_pass1 if expected_consistency else "tie"
+        if row.position_consistent is not expected_consistency or row.final_winner != expected_final:
+            raise ValueError("Bias analysis received an inconsistent swap consensus")
     total = len(judge_results)
     inconsistent = sum(not row.position_consistent for row in judge_results)
     a_longer = sum(row.final_winner == "A" and len(row.answer_a) > len(row.answer_b)
