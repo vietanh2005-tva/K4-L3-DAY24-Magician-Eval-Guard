@@ -9,7 +9,9 @@ Trưởng nhóm/người nộp: **Trương Việt Anh — 2A202602444**.
 Ngày lab/deadline áp dụng: chưa có thông báo lớp trong thông tin được cung cấp.
 Nhóm xác nhận thời hạn theo Asia/Ho_Chi_Minh (UTC+07:00) trước khi nộp.
 
-Bản tích hợp A/B/C đã hoàn tất kiểm chứng; SHA bản kỹ thuật được ghi sau khi tạo commit Phase C.
+Bản tích hợp A/B/C đã hoàn tất kiểm chứng. Commit kỹ thuật đề xuất để chấm:
+[`da94aab4d9e3555c8c53a8abcd0b96e55b78e778`](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/commit/da94aab4d9e3555c8c53a8abcd0b96e55b78e778).
+Commit tài liệu sau mốc này ghi lại SHA bản kỹ thuật; không thay code hoặc kết quả thực nghiệm.
 Phần Phase A được ghi trong commit có tiêu đề
 `feat: complete Phase A RAGAS evaluation and individual report`.
 Tra SHA phần Phase A bằng
