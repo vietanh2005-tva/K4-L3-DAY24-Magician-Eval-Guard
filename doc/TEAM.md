@@ -4,6 +4,26 @@ Tên nhóm: **Magician**.
 
 Repo chung: [K4-L3-DAY24-Magician-Eval-Guard](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard).
 
+## Nhánh cá nhân và bản hợp nhất
+
+| Nhánh | Người phụ trách | Phần đóng góp |
+|---|---|---|
+| [quangdat](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/quangdat) | Phạm Quang Đạt — 2A202602704 | Phase A, Tasks 1–4; pipeline Day 18, 50 answers, RAGAS và báo cáo lỗi |
+| [vietanh](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/vietanh) | Trương Việt Anh — 2A202602444 | Phase B, Tasks 5–8; judge, calibration và báo cáo bias; có nền tích hợp A/B/C |
+| [vuanh](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/vuanh) | Nguyễn Vũ Anh — 2A202602502 | Phase C, Tasks 9a–13; guardrails, thực nghiệm và blueprint; có nền A/B |
+
+Bản hợp nhất để nộp nằm trên [main](https://github.com/vietanh2005-tva/K4-L3-DAY24-Magician-Eval-Guard/tree/main).
+Các nhánh dùng chung lịch sử: commit A/B/C đã có trong vietanh; vuanh là mốc
+Phase C, còn quangdat bổ sung tài liệu phạm vi cá nhân. Khi hợp nhất, giữ đầy đủ
+INDIVIDUAL và bằng chứng A/B/C dưới đây, đồng thời ghi nhận thông tin nhánh
+quangdat thay cho các mô tả chỉ áp dụng cho bản Phase A riêng.
+
+Kiểm chứng lại bản hợp nhất ngày 12/10/2026 dùng Python 3.12.10 trong
+`.venv-tests`, dependencies từ `requirements/requirements-test.lock.txt`.
+Lệnh: `.\.venv-tests\Scripts\python.exe scripts/check_lab.py --with-tests`.
+Môi trường này kiểm tra offline và artifacts đã lưu; không chạy lại thực nghiệm API.
+Kết quả bản hợp nhất: **159 tests đạt, 3 integration tests deselected; checker 0 failed**.
+
 Trưởng nhóm/người nộp: **Trương Việt Anh — 2A202602444**.
 
 Ngày lab/deadline áp dụng: chưa có thông báo lớp trong thông tin được cung cấp.
