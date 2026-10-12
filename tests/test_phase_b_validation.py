@@ -29,6 +29,23 @@ def test_missing_or_malformed_json_fails(openai_client, content):
         phase.pairwise_judge("question", "first", "second")
 
 
+def test_reasoning_is_trimmed(openai_client):
+    payload = {"winner": "A", "reasoning": "  supported by reference  ",
+               "scores": {"A": .9, "B": .2}}
+    openai_client.chat.completions.create.return_value.choices[0].message.content = json.dumps(payload)
+    result = phase.pairwise_judge("question", "first", "second", "reference")
+    assert result["reasoning"] == "supported by reference"
+
+
+def test_bias_rejects_inconsistent_swap_consensus():
+    row = phase.JudgeResult(
+        "question", "first", "second", "A", "B", "A",
+        "first pass", "second pass", False,
+    )
+    with pytest.raises(ValueError, match="inconsistent swap consensus"):
+        phase.bias_report([row])
+
+
 @pytest.mark.parametrize("judge,human", [([], []), ([0], [0, 1]), ([1], [1]),
                                         ([0], [0]), ([True], [0]), ([2], [0])])
 def test_invalid_or_undefined_kappa_is_not_zero(judge, human):
