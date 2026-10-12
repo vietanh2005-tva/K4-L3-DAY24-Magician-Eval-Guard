@@ -1,0 +1,163 @@
+[
+  {
+    "id": 101,
+    "input": "Nhân viên chính thức có bao nhiêu ngày phép năm theo chính sách v2024?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "US_DRIVER_LICENSE",
+        "text": "v2024",
+        "score": 0.3,
+        "start": 64,
+        "end": 69
+      }
+    ],
+    "anonymized": "Nhân viên chính thức có bao nhiêu ngày phép năm theo chính sách <US_DRIVER_LICENSE>?"
+  },
+  {
+    "id": 102,
+    "input": "Xin lỗi, tôi không thể đi làm ngày mai; quy trình đăng ký nghỉ phép là gì?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "PERSON",
+        "text": "Xin",
+        "score": 0.85,
+        "start": 0,
+        "end": 3
+      },
+      {
+        "type": "PERSON",
+        "text": "quy trình",
+        "score": 0.85,
+        "start": 40,
+        "end": 49
+      }
+    ],
+    "anonymized": "<PERSON> lỗi, tôi không thể đi làm ngày mai; <PERSON> đăng ký nghỉ phép là gì?"
+  },
+  {
+    "id": 103,
+    "input": "Khung lương chung của cấp Senior là bao nhiêu?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "PERSON",
+        "text": "Khung",
+        "score": 0.85,
+        "start": 0,
+        "end": 5
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "chung của cấp Senior",
+        "score": 0.85,
+        "start": 12,
+        "end": 32
+      }
+    ],
+    "anonymized": "<PERSON> lương <ORGANIZATION> là bao nhiêu?"
+  },
+  {
+    "id": 104,
+    "input": "Lương thử việc của cấp Junior được tính theo tỷ lệ nào?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "PERSON",
+        "text": "tính theo tỷ lệ nào",
+        "score": 0.85,
+        "start": 35,
+        "end": 54
+      }
+    ],
+    "anonymized": "Lương thử việc của cấp Junior được <PERSON>?"
+  },
+  {
+    "id": 105,
+    "input": "Khi làm việc từ xa tôi có bắt buộc dùng VPN công ty không?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "LOCATION",
+        "text": "xa",
+        "score": 0.85,
+        "start": 16,
+        "end": 18
+      },
+      {
+        "type": "PERSON",
+        "text": "bắt buộc",
+        "score": 0.85,
+        "start": 26,
+        "end": 34
+      }
+    ],
+    "anonymized": "Khi làm việc từ <LOCATION> tôi có <PERSON> dùng VPN công ty không?"
+  },
+  {
+    "id": 106,
+    "input": "Tài khoản VPN không hoạt động bao nhiêu ngày thì bị khóa?",
+    "has_pii": false,
+    "entities": [],
+    "anonymized": "Tài khoản VPN không hoạt động bao nhiêu ngày thì bị khóa?"
+  },
+  {
+    "id": 107,
+    "input": "Theo chính sách v2.0, mật khẩu phải dài tối thiểu bao nhiêu ký tự?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "PERSON",
+        "text": "Theo chính sách v2.0",
+        "score": 0.85,
+        "start": 0,
+        "end": 20
+      },
+      {
+        "type": "PERSON",
+        "text": "mật khẩu",
+        "score": 0.85,
+        "start": 22,
+        "end": 30
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "dài",
+        "score": 0.85,
+        "start": 36,
+        "end": 39
+      },
+      {
+        "type": "US_DRIVER_LICENSE",
+        "text": "v2",
+        "score": 0.3,
+        "start": 16,
+        "end": 18
+      }
+    ],
+    "anonymized": "<PERSON>, <PERSON> phải <ORGANIZATION> tối thiểu bao nhiêu ký tự?"
+  },
+  {
+    "id": 108,
+    "input": "MFA có bắt buộc cho email và VPN công ty không?",
+    "has_pii": true,
+    "entities": [
+      {
+        "type": "ORGANIZATION",
+        "text": "MFA",
+        "score": 0.85,
+        "start": 0,
+        "end": 3
+      },
+      {
+        "type": "PERSON",
+        "text": "bắt buộc cho email",
+        "score": 0.85,
+        "start": 7,
+        "end": 25
+      }
+    ],
+    "anonymized": "<ORGANIZATION> có <PERSON> và VPN công ty không?"
+  }
+]

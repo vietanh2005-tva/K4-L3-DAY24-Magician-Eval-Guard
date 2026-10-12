@@ -146,5 +146,6 @@ human hoặc chọn một lần chạy khác chỉ để nâng κ. RAGAS và jud
 không dùng điểm judge thay bằng chứng retrieval hoặc đánh giá bảo mật của Phase C.
 
 Kiểm chứng offline phần B: 30 tests Phase B đạt (SDK mock + validation).
-Toàn bộ tests support/student sau khi triển khai B/C: 158 đạt, 3 deselected.
+Ở thời điểm commit Phase B, tests support/student: 158 đạt, 3 deselected.
+Bản tích hợp cuối bổ sung test scope PII, có 159 tests đạt, 3 deselected.
 Các tests này không gọi API; JSON live được runner và validators kiểm tra riêng.

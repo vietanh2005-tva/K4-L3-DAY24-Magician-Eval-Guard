@@ -1,0 +1,109 @@
+{
+  "created_at": "2026-10-12T05:35:04.445716+00:00",
+  "run_kind": "local_real_presidio",
+  "models": [
+    "en_core_web_sm"
+  ],
+  "entities_in_scope": [
+    "VN_CCCD",
+    "VN_PHONE",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER"
+  ],
+  "packages": {
+    "presidio-analyzer": "2.2.364",
+    "presidio-anonymizer": "2.2.364",
+    "spacy": "3.8.16",
+    "en-core-web-sm": "3.8.0"
+  },
+  "results": [
+    {
+      "source_id": 1,
+      "input": "Nhân viên có CCCD 034095001234, SĐT 0987654321 muốn hỏi về chính sách nghỉ phép năm.",
+      "has_pii": true,
+      "entities": [
+        {
+          "type": "VN_CCCD",
+          "text": "034095001234",
+          "score": 0.9,
+          "start": 18,
+          "end": 30
+        },
+        {
+          "type": "VN_PHONE",
+          "text": "0987654321",
+          "score": 0.9,
+          "start": 36,
+          "end": 46
+        },
+        {
+          "type": "PHONE_NUMBER",
+          "text": "034095001234",
+          "score": 0.4,
+          "start": 18,
+          "end": 30
+        },
+        {
+          "type": "PHONE_NUMBER",
+          "text": "0987654321",
+          "score": 0.4,
+          "start": 36,
+          "end": 46
+        }
+      ],
+      "anonymized": "Nhân viên có CCCD <VN_CCCD>, SĐT <VN_PHONE> muốn hỏi về chính sách nghỉ phép năm."
+    },
+    {
+      "source_id": 2,
+      "input": "SĐT 0912345678 cần biết thông tin về gói bảo hiểm sức khỏe PVI.",
+      "has_pii": true,
+      "entities": [
+        {
+          "type": "VN_PHONE",
+          "text": "0912345678",
+          "score": 0.9,
+          "start": 4,
+          "end": 14
+        },
+        {
+          "type": "PHONE_NUMBER",
+          "text": "0912345678",
+          "score": 0.4,
+          "start": 4,
+          "end": 14
+        }
+      ],
+      "anonymized": "SĐT <VN_PHONE> cần biết thông tin về gói bảo hiểm sức khỏe PVI."
+    },
+    {
+      "source_id": 3,
+      "input": "Nguyễn Văn An, email an.nguyen@company.com, muốn hỏi về mức lương Lead là bao nhiêu?",
+      "has_pii": true,
+      "entities": [
+        {
+          "type": "EMAIL_ADDRESS",
+          "text": "an.nguyen@company.com",
+          "score": 1.0,
+          "start": 21,
+          "end": 42
+        }
+      ],
+      "anonymized": "Nguyễn Văn An, email <EMAIL_ADDRESS>, muốn hỏi về mức lương Lead là bao nhiêu?"
+    },
+    {
+      "source_id": 4,
+      "input": "Tôi là Trần Thị Bình, CMND 012345678, lương hiện tại 25 triệu. Tôi có được tăng lương không?",
+      "has_pii": true,
+      "entities": [
+        {
+          "type": "VN_CCCD",
+          "text": "012345678",
+          "score": 0.7,
+          "start": 27,
+          "end": 36
+        }
+      ],
+      "anonymized": "Tôi là Trần Thị Bình, CMND <VN_CCCD>, lương hiện tại 25 triệu. Tôi có được tăng lương không?"
+    }
+  ]
+}

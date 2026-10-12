@@ -24,6 +24,9 @@ có thể chạy các script gốc với PyTorch được nạp trước:
 ```powershell
 .\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/setup_answers.py', run_name='__main__')" --live
 .\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/run_experiments.py', run_name='__main__')" --phase a --live
+.\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/run_experiments.py', run_name='__main__')" --phase b --live
+$env:HF_HUB_DISABLE_XET='1'
+.\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/run_experiments.py', run_name='__main__')" --phase c --live --latency-samples 20
 ```
 
 Hiện tượng phụ thuộc thứ tự import trên Windows cũng được thảo luận trong
@@ -78,7 +81,7 @@ Kiểm tra các lớp riêng biệt để biết lỗi nằm ở đâu:
 ```bash
 python -m pip check
 python -c "import ragas, nemoguardrails, presidio_analyzer, spacy; print('imports OK')"
-python -m spacy download en_core_web_lg
+python -m pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 docker compose -f infra/docker-compose.yml up -d
 python scripts/setup_answers.py --live
 ```
@@ -115,3 +118,31 @@ py -3.11 -m venv .venv-tests
 `requirements/requirements-test.txt` ghi dependencies trực tiếp; file `.lock.txt` khóa
 toàn bộ dependencies của tập test. Đây chỉ là lock unit test, không thay constraints hoặc
 cài đặt full runtime. Không commit virtualenv, key hoặc cache model.
+
+## Cấu hình runtime Phase C của nhóm Magician
+
+`setup_presidio()` tạo `NlpEngineProvider` thật với `en_core_web_sm` 3.8.0,
+spaCy 3.8.16 và Presidio analyzer/anonymizer 2.2.364. Model này được chọn vì
+download `en_core_web_lg` khoảng 400 MB quá chậm/gián đoạn trên máy thực nghiệm;
+bản nhỏ khoảng 13 MB vẫn có pipeline NLP/NER thật. Không dùng `spacy.blank`,
+engine giả hoặc mocks trong runner live. Regex CCCD/CMND và số điện thoại VN
+giữ nguyên Day24; email dùng recognizer của Presidio. `PRESIDIO_ENTITIES` giới
+hạn quyết định PII ở VN_CCCD, VN_PHONE, EMAIL_ADDRESS và PHONE_NUMBER theo yêu
+cầu lab. Lần đầu dùng tất cả recognizers đã chặn nhầm 7/8 clean inputs:
+v2024 thành US_DRIVER_LICENSE, “Xin” thành PERSON và MFA thành ORGANIZATION.
+Baseline được giữ ở `artifacts/guard_results_baseline.json` và các spans ở
+`artifacts/presidio_clean_baseline.json`. Các types khác không quyết định block
+ở lớp PII; NeMo vẫn kiểm tra yêu cầu dữ liệu nhân viên riêng tư. Chưa hỗ trợ
+nhận diện đầy đủ mọi tên/địa chỉ tiếng Việt hoặc dữ liệu mới.
+
+NeMo dùng đúng 0.10.0/Colang 1.0 và built-in self check input/output của starter,
+OpenAI `gpt-4o-mini`. Annoy 1.17.3 đã build được bằng MSVC trong Microsoft Visual
+Studio 18 Build Tools. NeMo tải cache FastEmbed `all-MiniLM-L6-v2` khi khởi tạo;
+trên máy này Xet không hoàn tất, chuyển `HF_HUB_DISABLE_XET=1` thì tải/khởi tạo
+thành công. Biến này chỉ đổi transport download, không đổi model hay policy.
+Cache và khởi tạo đều được làm trước các lượt timed của Task 12.
+
+`pip check` của runtime đầy đủ đạt; imports `torch`, RAGAS, NeMo, Presidio,
+spaCy được kiểm tra riêng. Log cài đặt/chạy nằm trong `.venv/` không commit.
+Các dependency ngoài bộ core chưa được khóa toàn bộ; khi đổi máy cần ghi
+phiên bản thực tế và kiểm tra imports cùng model download trước chạy lại.

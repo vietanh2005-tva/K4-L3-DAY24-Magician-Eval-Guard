@@ -59,3 +59,5 @@ RAGAS_EMBEDDING_MODEL = "text-embedding-3-small"
 # --- Guardrail latency budget ---
 LATENCY_BUDGET_P95_MS = 500  # Full guard target; Task 12 currently measures input guards only.
 PRESIDIO_LANGUAGE = "en"    # Presidio base language; custom VN recognizers added via PatternRecognizer
+PRESIDIO_NLP_MODEL = "en_core_web_sm"  # Real spaCy 3.8.0 model; Vietnamese IDs/phones use patterns.
+PRESIDIO_ENTITIES = ("VN_CCCD", "VN_PHONE", "EMAIL_ADDRESS", "PHONE_NUMBER")

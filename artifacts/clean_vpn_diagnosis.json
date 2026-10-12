@@ -1,0 +1,21 @@
+{
+  "input": "Khi làm việc từ xa tôi có bắt buộc dùng VPN công ty không?",
+  "response": [
+    {
+      "role": "assistant",
+      "content": "Khi làm việc từ xa tôi có bắt buộc dùng VPN công ty không?"
+    }
+  ],
+  "rails": [
+    {
+      "name": "self check input",
+      "stop": false
+    }
+  ],
+  "llm_calls": [
+    {
+      "task": "self_check_input",
+      "completion": "No"
+    }
+  ]
+}
