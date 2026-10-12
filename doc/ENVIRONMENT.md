@@ -11,6 +11,25 @@ Bộ phiên bản lõi trong starter: RAGAS 0.1.22; LangChain 0.2.17; langchain-
 0.10.0; Annoy 1.17.3; NumPy 1.26.4. Các pins nằm trong `requirements/constraints-core.txt`.
 Đây là constraints cho tập lõi, **không phải lock toàn bộ dependencies**.
 
+Phase A bổ sung pin `pyarrow==17.0.0`: khi cài trên Python 3.11, resolver đã
+chọn PyArrow 26.0.0 nhưng import thực tế báo cần NumPy 2.0 trở lên. Giữ nguyên
+NumPy 1.26.4 theo Day 24 và dùng PyArrow 17.0.0, nằm trong yêu cầu
+`pyarrow>=15.0.0` của datasets 2.21.0. Vẫn cần kiểm tra imports sau `pip check`.
+
+Trên máy Windows của lần chạy Phase A, import PyTorch sau RAGAS/datasets gây
+`WinError 1114` ở `c10.dll`; import `torch` trước thì kiểm tra imports đạt.
+Không cần đổi các phiên bản lõi để xử lý thứ tự nạp DLL này. Khi gặp cùng lỗi,
+có thể chạy các script gốc với PyTorch được nạp trước:
+
+```powershell
+.\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/setup_answers.py', run_name='__main__')" --live
+.\.venv\Scripts\python.exe -c "import torch, runpy; runpy.run_path('scripts/run_experiments.py', run_name='__main__')" --phase a --live
+```
+
+Hiện tượng phụ thuộc thứ tự import trên Windows cũng được thảo luận trong
+[PyTorch issue 166628](https://github.com/pytorch/pytorch/issues/166628);
+đây là workaround đã kiểm tra trên máy này, không phải kết luận cho mọi máy.
+
 Trên Windows, build `annoy==1.17.3` cần Microsoft Visual C++ 14.0 trở lên.
 Sau khi cài compiler, nhóm chạy các bước kiểm chứng phía dưới trên chính môi
 trường sẽ làm lab. Kết quả unit tests hoặc pip resolve không chứng minh full
@@ -71,6 +90,15 @@ mất lâu tùy máy và mạng. Generation/enrichment có thể gọi API, có 
 
 Ghi OS, Python, kết quả pip/import/compiler/model download trong TEAM. Nếu full
 stack cài chưa xong, ghi lỗi thật; không điền “tương thích” dựa trên dry-run.
+
+## Line endings và source hashes khi chuyển máy
+
+Metadata của artifacts dùng SHA-256 trên bytes của file nguồn. `.gitattributes`
+giữ nguyên bytes của `artifacts/*.json` và checkout `fixtures/*.json` với CRLF
+trên mọi hệ điều hành, khớp định dạng fixture của lần đo trên Windows.
+Điều này tránh Git tự đổi line endings làm checker báo stale source dù JSON
+không đổi nội dung. Khi tự ghi lại fixture, giữ CRLF; khi tạo answers mới,
+chạy lại phase liên quan để metadata khớp file nguồn mới.
 
 ## Tạo môi trường unit test offline
 

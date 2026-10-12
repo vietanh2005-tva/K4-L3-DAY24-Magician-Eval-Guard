@@ -68,3 +68,21 @@ khớp nguồn. Không thay answer bằng ground_truth. Trước Phase A, xác n
 Unit tests dùng fake module để kiểm tra việc truyền dữ liệu, không chứng minh
 module RAG bài trước đã chạy trên Qdrant/model thật. Chạy setup thực tế trước
 lớp sau khi hoàn tất [ENVIRONMENT.md](ENVIRONMENT.md).
+
+## Nguồn module Day 18 đã tích hợp
+
+Mã `src/m1_chunking.py` đến `src/m5_enrichment.py`, cùng hai helper
+`src/llm_clients.py` và `src/api_pacing.py`, được lấy từ repo Day 18:
+[K4-Track3A-DAY18-PhamQuangDat-2A202602704-ProductionRAG](https://github.com/datpq-alpha/K4-Track3A-DAY18-PhamQuangDat-2A202602704-ProductionRAG),
+commit `f9acd87` (bản local không có thay đổi ở các file nguồn này).
+
+Các điều chỉnh cho Day 24:
+
+- Bổ sung các biến cấu hình mà helper Day 18 cần; giữ mặc định OpenAI và tách
+  model evaluator khỏi judge.
+- M2 dùng `search(query_vector=...)` để khớp Qdrant client/server 1.9 của starter.
+- M4 xuất `metadata.evaluator_models` từ các client được truyền vào RAGAS;
+  giữ nguyên các điểm thiếu là `None`, không thay bằng điểm giả.
+
+Việc tích hợp source chưa chứng minh pipeline hoặc RAGAS đã chạy live trên
+Day 24. Cần sinh riêng bộ 50 answers và chạy các phase theo đề bài.

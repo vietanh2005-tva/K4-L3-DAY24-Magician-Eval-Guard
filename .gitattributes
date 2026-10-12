@@ -1,0 +1,4 @@
+# Source hashes are byte-based: preserve generated JSON without conversion.
+artifacts/*.json -text whitespace=cr-at-eol
+# Use the same fixture bytes on every OS as the measured Windows run.
+fixtures/*.json text eol=crlf

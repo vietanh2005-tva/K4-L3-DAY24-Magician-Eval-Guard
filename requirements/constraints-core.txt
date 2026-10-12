@@ -10,3 +10,5 @@ nemoguardrails==0.10.0
 openai==1.109.1
 annoy==1.17.3
 numpy==1.26.4
+# PyArrow 26 fails to import with NumPy 1.26; keep the Day24 NumPy pin.
+pyarrow==17.0.0

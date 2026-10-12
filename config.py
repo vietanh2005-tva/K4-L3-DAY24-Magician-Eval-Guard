@@ -48,6 +48,14 @@ PAIR_QUESTION_IDS = (1, 5, 12, 21, 41)
 GENERATION_MODEL = "gpt-4o-mini"
 JUDGE_MODEL = "gpt-4o-mini"
 
+# --- Imported Day 18 enrichment and RAGAS clients ---
+# Keep evaluation models independent of the pairwise/binary judge.
+OPENAI_BASE_URL = "https://api.openai.com/v1/"
+LLM_PROVIDER = "openai"
+LLM_MODEL = GENERATION_MODEL
+RAGAS_LLM_MODEL = "gpt-4o-mini"
+RAGAS_EMBEDDING_MODEL = "text-embedding-3-small"
+
 # --- Guardrail latency budget ---
 LATENCY_BUDGET_P95_MS = 500  # Full guard target; Task 12 currently measures input guards only.
 PRESIDIO_LANGUAGE = "en"    # Presidio base language; custom VN recognizers added via PatternRecognizer
